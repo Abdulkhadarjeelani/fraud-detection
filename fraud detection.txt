@@ -1,0 +1,32 @@
+# Importing required libraries
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+
+# Load the dataset
+data = pd.read_csv('credit_card_data.csv')
+
+# Data preprocessing
+X = data.drop('Class', axis=1)
+y = data['Class']
+
+# Splitting the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Training the model
+rfc = RandomForestClassifier(n_estimators=100, random_state=42)
+rfc.fit(X_train, y_train)
+
+# Predicting the results
+y_pred = rfc.predict(X_test)
+
+# Evaluating the model
+print("Confusion matrix: ")
+print(confusion_matrix(y_test, y_pred))
+print("\n")
+print("Classification report: ")
+print(classification_report(y_test, y_pred))
+print("\n")
+print("Accuracy score: ", accuracy_score(y_test, y_pred))
